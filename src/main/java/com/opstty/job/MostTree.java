@@ -9,12 +9,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Sort {
+public class MostTree {
     public static void main(String[] args) throws Exception {
+
         Configuration conf = new Configuration();
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-        Map<String, String> dict_trees = new HashMap<String, String>();
-
+        Map<String, Integer> dict_trees = new HashMap<String, Integer>();
+        Map.Entry<String, Integer> max_entry = null;
         for (String mot : otherArgs) {
             System.out.println(mot);
         }
@@ -31,27 +32,25 @@ public class Sort {
             line = br.readLine();
             while (line != null) {
                 String[] arrOfStr = line.split(";", 8);
-                if (!arrOfStr[6].isEmpty()) {
-                    if (dict_trees.containsKey(arrOfStr[6])) {
-                        dict_trees.put(arrOfStr[6], dict_trees.get(arrOfStr[6]) + ", " + arrOfStr[3]);
+                if (!arrOfStr[1].isEmpty()) {
+                    if (dict_trees.containsKey(arrOfStr[1])) {
+                        dict_trees.put(arrOfStr[1], dict_trees.get(arrOfStr[1]) + 1);
                     } else {
-                        dict_trees.put(arrOfStr[6], arrOfStr[3]);
+                        dict_trees.put(arrOfStr[1], 1);
                     }
                 }
                 line = br.readLine();
             }
-            List<String> height_sort1 = new ArrayList<String>(dict_trees.keySet());
-            List<Double> height_sort2 = new ArrayList<Double>();
 
-            for (String s : height_sort1) {
-                height_sort2.add(Double.parseDouble(s));
+            for (Map.Entry<String, Integer> trees_entry : dict_trees.entrySet()) {
+                if (max_entry == null || trees_entry.getValue() > max_entry.getValue()) {
+                    max_entry = trees_entry;
+
+                }
             }
-
-            Collections.sort(height_sort2);
-
-            for (Double d : height_sort2) {
-                System.out.println("Height : " + d + " ; Specie(s) : " + dict_trees.get(d.toString()));
-            }
+            String max_district = max_entry.getKey();
+            int max_nbr_trees = max_entry.getValue();
+            System.out.println("The district with the most trees is " + max_district + " with " + max_nbr_trees + " trees.");
 
         } catch (Exception e) {
             System.out.println(e);
