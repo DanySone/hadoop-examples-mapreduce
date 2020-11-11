@@ -43,9 +43,7 @@ public class Species {
                 }
                 line = br.readLine();
             }
-
-            System.out.print(arr);
-            System.out.println(" Total = " + arr.size());
+            System.out.println("The different species of trees in this file are : " + arr + " Total = " + arr.size() + " species");
         } catch (Exception e) {
         }
 
